@@ -1,0 +1,10 @@
+{
+  "name": "Browser Brawl",
+  "short_name": "Brawl",
+  "description": "A browser-first local and online physics arena prototype.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08111f",
+  "theme_color": "#111827",
+  "icons": []
+}

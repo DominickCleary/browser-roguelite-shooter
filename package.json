@@ -1,0 +1,22 @@
+{
+  "name": "browser-brawl",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "build": "corepack pnpm -r build",
+    "dev": "concurrently -n server,client -c magenta,cyan \"corepack pnpm --filter @game/server dev\" \"corepack pnpm --filter @game/client dev\"",
+    "dev:client": "corepack pnpm --filter @game/client dev",
+    "dev:server": "corepack pnpm --filter @game/server dev",
+    "test": "corepack pnpm --filter @game/simulation test",
+    "typecheck": "corepack pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

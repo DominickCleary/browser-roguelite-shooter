@@ -1,0 +1,22 @@
+{
+  "name": "@game/client",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "dev": "vite --host 0.0.0.0",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@game/config": "workspace:*",
+    "@game/physics": "workspace:*",
+    "@game/protocol": "workspace:*",
+    "@game/simulation": "workspace:*",
+    "colyseus.js": "^0.16.19",
+    "pixi.js": "^8.11.0"
+  },
+  "devDependencies": {
+    "vite": "^7.0.4"
+  }
+}
