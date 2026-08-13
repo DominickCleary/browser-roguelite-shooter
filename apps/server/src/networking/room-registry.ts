@@ -20,4 +20,5 @@ export const unregisterRoom = (code: string): void => {
   roomsByCode.delete(code);
 };
 
-export const resolveRoom = (code: string): string | undefined => roomsByCode.get(code.toUpperCase());
+export const resolveRoom = (code: string): string | undefined =>
+  roomsByCode.get(code.toUpperCase());

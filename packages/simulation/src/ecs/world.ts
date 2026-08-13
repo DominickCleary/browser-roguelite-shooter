@@ -1,18 +1,18 @@
-import { ComponentStore, type EntityId } from "../components/index.js";
+import { ComponentStore, type EntityId } from '../components'
 
 export class World {
-  readonly components = new ComponentStore();
-  private nextId = 1;
+  readonly components = new ComponentStore()
+  private nextId = 1
 
   createEntity(): EntityId {
-    return this.nextId++;
+    return this.nextId++
   }
 
   deleteEntity(entityId: EntityId): void {
-    this.components.delete(entityId);
+    this.components.delete(entityId)
   }
 
   get entityCount(): number {
-    return this.components.kinds.size;
+    return this.components.kinds.size
   }
 }

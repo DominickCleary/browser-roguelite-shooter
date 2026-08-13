@@ -23,9 +23,9 @@ pnpm build
 
 ## Controls
 
-- Player 1: WASD, mouse aim, click/F shoot, Space jump, Left Shift/G block.
-- Player 2: arrow keys, IJKL aim, O/Numpad 1 shoot, Enter/Numpad 0 jump, P/Numpad 2 block.
-- Gamepad: left stick move, right stick aim, A jump, RT/X shoot, LB block.
+- Player 1: WASD, mouse aim, click/F shoot, R reload, Space jump, Left Shift/G block.
+- Player 2: arrow keys, IJKL aim, O/Numpad 1 shoot, U reload, Enter/Numpad 0 jump, P/Numpad 2 block.
+- Gamepad: left stick move, right stick aim, A jump, RT/X shoot, Y reload, LB block.
 - F3 toggles the debug and collider overlay. Ctrl+R forces a round reset.
 
 ## Architecture

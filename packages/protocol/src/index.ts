@@ -1,11 +1,12 @@
 export interface PlayerInput {
-  moveX: number;
-  moveY: number;
-  aimX: number;
-  aimY: number;
-  jump: boolean;
-  fire: boolean;
-  block: boolean;
+  moveX: number
+  moveY: number
+  aimX: number
+  aimY: number
+  jump: boolean
+  fire: boolean
+  reload: boolean
+  block: boolean
 }
 
 export const NEUTRAL_INPUT: Readonly<PlayerInput> = {
@@ -15,68 +16,92 @@ export const NEUTRAL_INPUT: Readonly<PlayerInput> = {
   aimY: 0,
   jump: false,
   fire: false,
-  block: false,
-};
-
-export type EntityKind = "player" | "projectile" | "platform" | "crate";
-
-export interface EntitySnapshot {
-  id: number;
-  kind: EntityKind;
-  x: number;
-  y: number;
-  rotation: number;
-  width: number;
-  height: number;
-  colour?: number;
-  playerIndex?: number;
-  health?: number;
-  maxHealth?: number;
-  blocking?: boolean;
-  alive?: boolean;
+  reload: false,
+  block: false
 }
 
-export type RoundPhase = "lobby" | "playing" | "round-over" | "match-over";
+export type EntityKind = 'player' | 'projectile' | 'platform' | 'crate'
+
+export interface EntitySnapshot {
+  id: number
+  kind: EntityKind
+  x: number
+  y: number
+  rotation: number
+  width: number
+  height: number
+  colour?: number
+  playerIndex?: number
+  health?: number
+  maxHealth?: number
+  aimX?: number
+  aimY?: number
+  ammo?: number
+  maxAmmo?: number
+  reloadRemaining?: number
+  reloadDuration?: number
+  blocking?: boolean
+  alive?: boolean
+}
+
+export type RoundPhase = 'lobby' | 'playing' | 'round-over' | 'match-over'
 
 export interface RoundSnapshot {
-  phase: RoundPhase;
-  number: number;
-  winnerId: number | null;
-  resetIn: number;
-  scores: Record<number, number>;
+  phase: RoundPhase
+  number: number
+  winnerId: number | null
+  resetIn: number
+  scores: Record<number, number>
 }
 
 export interface GameSnapshot {
-  tick: number;
-  serverTime: number;
-  physicsBodyCount: number;
-  entities: EntitySnapshot[];
-  round: RoundSnapshot;
-  events: GameEvent[];
+  tick: number
+  serverTime: number
+  physicsBodyCount: number
+  entities: EntitySnapshot[]
+  round: RoundSnapshot
+  events: GameEvent[]
 }
 
 export interface ClientInputMessage {
-  playerId: number;
-  sequence: number;
-  input: PlayerInput;
+  playerId: number
+  sequence: number
+  input: PlayerInput
 }
 
 export interface WelcomeMessage {
-  playerIds: number[];
-  roomCode: string;
-  isHost: boolean;
+  playerIds: number[]
+  roomCode: string
+  isHost: boolean
 }
 
 export type GameEvent =
-  | { type: "ProjectileHit"; projectileId: number; targetId: number; ownerId: number }
-  | { type: "Damage"; targetId: number; sourceId: number; amount: number }
-  | { type: "BlockSuccess"; playerId: number; sourceId: number }
-  | { type: "PlayerDeath"; playerId: number; killerId: number | null }
-  | { type: "RoundEnd"; winnerId: number | null; round: number };
+  | {
+      type: 'ProjectileHit'
+      projectileId: number
+      targetId: number
+      ownerId: number
+    }
+  | {
+      type: 'ProjectileBounce'
+      projectileId: number
+      x: number
+      y: number
+    }
+  | {
+      type: 'ProjectileDestroyed'
+      projectileId: number
+      x: number
+      y: number
+    }
+  | { type: 'Damage'; targetId: number; sourceId: number; amount: number }
+  | { type: 'BlockSuccess'; playerId: number; sourceId: number }
+  | { type: 'PlayerDeath'; playerId: number; killerId: number | null }
+  | { type: 'RoundEnd'; winnerId: number | null; round: number }
 
 export const sanitiseInput = (input: PlayerInput): PlayerInput => {
-  const clamp = (value: number) => Math.max(-1, Math.min(1, Number.isFinite(value) ? value : 0));
-  const aimLength = Math.hypot(input.aimX, input.aimY);
+  const clamp = (value: number) => Math.max(-1, Math.min(1, Number.isFinite(value) ? value : 0))
+  const aimLength = Math.hypot(input.aimX, input.aimY)
   return {
     moveX: clamp(input.moveX),
     moveY: clamp(input.moveY),
@@ -84,6 +109,7 @@ export const sanitiseInput = (input: PlayerInput): PlayerInput => {
     aimY: aimLength > 0.001 ? input.aimY / aimLength : 0,
     jump: Boolean(input.jump),
     fire: Boolean(input.fire),
-    block: Boolean(input.block),
-  };
-};
+    reload: Boolean(input.reload),
+    block: Boolean(input.block)
+  }
+}

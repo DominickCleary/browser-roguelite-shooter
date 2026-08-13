@@ -9,35 +9,36 @@
   </head>
   <body>
     <main id="app">
-      <div id="game-canvas" aria-label="Game arena"></div>
+      <div id="game-canvas" role="img" aria-label="Game arena"></div>
       <section id="lobby" class="panel">
         <p class="eyebrow">NETWORKED PROTOTYPE</p>
         <h1>BROWSER BRAWL</h1>
         <p class="subtitle">A tiny physics arena. First to three rounds wins.</p>
-        <button id="local-button" class="primary">LOCAL GAME</button>
-        <button id="host-button">HOST ONLINE</button>
+        <button type="button" id="local-button" class="primary">LOCAL GAME</button>
+        <button type="button" id="host-button">HOST ONLINE</button>
         <div class="join-row">
           <label for="room-code">Room code</label>
           <input id="room-code" maxlength="4" autocomplete="off" placeholder="ABCD" />
-          <button id="join-button">JOIN ONLINE</button>
+          <button type="button" id="join-button">JOIN ONLINE</button>
         </div>
         <p id="lobby-message" role="status"></p>
         <div class="controls">
-          <strong>Player 1</strong> WASD · mouse aim · click shoot · Space jump · Shift block<br />
-          <strong>Player 2</strong> arrows · IJKL aim · O shoot · Enter jump · P block<br />
-          Gamepads: sticks · A jump · RT shoot · LB block
+          <strong>Player 1</strong> WASD · mouse aim · left-click shoot · right-click block · R reload · Space jump<br />
+          <strong>Player 2</strong> arrows · IJKL aim · O shoot · U reload · Enter jump · P block<br />
+          Gamepads: sticks · A jump · RT shoot · Y reload · LB block
         </div>
       </section>
       <section id="room-panel" class="panel hidden">
         <p class="eyebrow">ONLINE ROOM</p>
         <h2 id="room-title">ROOM ----</h2>
         <p id="room-players">Waiting for players…</p>
-        <button id="start-button" class="primary">START</button>
+        <button type="button" id="start-button" class="primary">START</button>
       </section>
       <div id="scoreboard" class="hidden"></div>
       <div id="round-banner" class="hidden"></div>
       <pre id="debug" class="hidden"></pre>
-      <button id="leave-button" class="small hidden">LEAVE</button>
+      <button type="button" id="sound-button" class="small" aria-pressed="false">SOUND ON</button>
+      <button type="button" id="leave-button" class="small hidden">LEAVE</button>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

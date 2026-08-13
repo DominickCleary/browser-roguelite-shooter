@@ -1,11 +1,11 @@
+import { existsSync } from "node:fs";
+import { createServer } from "node:http";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { WebSocketTransport } from "@colyseus/ws-transport";
 import { Server } from "colyseus";
 import cors from "cors";
 import express from "express";
-import { createServer } from "node:http";
-import { existsSync } from "node:fs";
-import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { resolveRoom } from "./networking/room-registry.js";
 import { ArenaRoom } from "./rooms/arena-room.js";
 
@@ -20,14 +20,21 @@ app.get("/api/rooms/:code", (request, response) => {
   return response.json({ roomId });
 });
 
-const clientDist = resolve(fileURLToPath(new URL(".", import.meta.url)), "../../client/dist");
+const clientDist = resolve(
+  fileURLToPath(new URL(".", import.meta.url)),
+  "../../client/dist",
+);
 if (existsSync(clientDist)) {
   app.use(express.static(clientDist));
-  app.get("/{*splat}", (_request, response) => response.sendFile(resolve(clientDist, "index.html")));
+  app.get("/{*splat}", (_request, response) =>
+    response.sendFile(resolve(clientDist, "index.html")),
+  );
 }
 
 const httpServer = createServer(app);
-const gameServer = new Server({ transport: new WebSocketTransport({ server: httpServer }) });
+const gameServer = new Server({
+  transport: new WebSocketTransport({ server: httpServer }),
+});
 gameServer.define("arena", ArenaRoom);
 
 await gameServer.listen(port);
