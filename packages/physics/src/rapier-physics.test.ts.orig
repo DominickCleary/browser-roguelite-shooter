@@ -1,0 +1,43 @@
+import { FIXED_DT } from '@game/config'
+import { describe, expect, it } from 'vitest'
+import { createPhysics } from './node.js'
+
+describe('RapierPhysics contacts', () => {
+  it('resolves a fast landing without a long visible penetration', async () => {
+    const physics = await createPhysics()
+    physics.createBody({
+      entityId: 1,
+      bodyType: 'static',
+      shape: 'box',
+      x: 0,
+      y: 100,
+      width: 1_000,
+      height: 20,
+    })
+    physics.createBody({
+      entityId: 2,
+      bodyType: 'dynamic',
+      shape: 'box',
+      x: 0,
+      y: 50,
+      width: 20,
+      height: 20,
+      lockRotations: true,
+      mass: 1,
+      footSensor: true,
+      softCcdPrediction: 10,
+    })
+    physics.setVelocity(2, { x: 420, y: 1_250 })
+
+    let maximumPenetration = 0
+    for (let tick = 0; tick < 60; tick++) {
+      physics.step(FIXED_DT)
+      const position = physics.getPosition(2)
+      maximumPenetration = Math.max(maximumPenetration, position.y + 10 - 90)
+    }
+
+    expect(maximumPenetration).toBeLessThan(3)
+    expect(physics.getPosition(2).y).toBeCloseTo(80, 0)
+    expect(physics.getVelocity(2).y).toBe(0)
+  })
+})
